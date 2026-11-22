@@ -11,7 +11,7 @@ C = config.COLORS
 
 
 def is_dark_mode() -> bool:
-    """Memeriksa tema Streamlit yang sedang digunakan."""
+    """Memeriksa tema dasar Streamlit."""
     return st.get_option("theme.base") == "dark"
 
 
@@ -34,11 +34,16 @@ def get_tones():
 
 
 def inject_css() -> None:
+    """Memasang CSS untuk seluruh tampilan AgroHeat."""
+
     st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-    /* GLOBAL */
+    /* =====================================
+       GLOBAL
+    ===================================== */
+
     html, body, [class*="css"], .stApp {
         font-family: 'Plus Jakarta Sans', 'Segoe UI', sans-serif;
     }
@@ -53,25 +58,89 @@ def inject_css() -> None:
         max-width: 1400px;
     }
 
-    /* SIDEBAR */
+    /* =====================================
+       SIDEBAR
+    ===================================== */
+
     section[data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #174D35 0%, #103B2A 100%);
+        background: linear-gradient(
+            180deg,
+            #174D35 0%,
+            #103B2A 100%
+        );
     }
 
-    section[data-testid="stSidebar"] * {
+    /* Teks umum sidebar */
+    section[data-testid="stSidebar"] p,
+    section[data-testid="stSidebar"] label,
+    section[data-testid="stSidebar"] h1,
+    section[data-testid="stSidebar"] h2,
+    section[data-testid="stSidebar"] h3,
+    section[data-testid="stSidebar"] span,
+    section[data-testid="stSidebar"] li {
         color: #F0F7F1;
     }
 
-    section[data-testid="stSidebar"] [data-baseweb="select"] * {
-        color: #243449 !important;
+    /* =====================================
+       DROPDOWN SIDEBAR
+    ===================================== */
+
+    /* Kotak dropdown */
+    section[data-testid="stSidebar"] [data-baseweb="select"] > div {
+        background-color: var(--secondary-background-color) !important;
+        border-radius: 10px !important;
     }
 
-    /* BRAND */
+    /* Teks pilihan yang sedang aktif */
+    section[data-testid="stSidebar"] [data-baseweb="select"] div[class*="singleValue"],
+    section[data-testid="stSidebar"] [data-baseweb="select"] div[class*="placeholder"] {
+        color: var(--text-color) !important;
+        -webkit-text-fill-color: var(--text-color) !important;
+        opacity: 1 !important;
+    }
+
+    /* Semua teks di dalam dropdown */
+    section[data-testid="stSidebar"] [data-baseweb="select"] {
+        color: var(--text-color) !important;
+    }
+
+    section[data-testid="stSidebar"] [data-baseweb="select"] input {
+        color: var(--text-color) !important;
+        -webkit-text-fill-color: var(--text-color) !important;
+    }
+
+    /* Ikon panah dropdown */
+    section[data-testid="stSidebar"] [data-baseweb="select"] svg {
+        fill: var(--text-color) !important;
+        color: var(--text-color) !important;
+    }
+
+    /* Menu pilihan ketika dropdown dibuka */
+    div[data-baseweb="popover"] {
+        background-color: var(--secondary-background-color) !important;
+    }
+
+    div[data-baseweb="popover"] li,
+    div[data-baseweb="popover"] [role="option"] {
+        background-color: var(--secondary-background-color) !important;
+        color: var(--text-color) !important;
+        -webkit-text-fill-color: var(--text-color) !important;
+    }
+
+    div[data-baseweb="popover"] [role="option"]:hover {
+        background-color: var(--primary-color) !important;
+    }
+
+    /* =====================================
+       BRAND
+    ===================================== */
+
     .ah-brand {
         font-weight: 800;
         font-size: 1.55rem;
         letter-spacing: .08em;
         margin-bottom: 0;
+        color: #F0F7F1;
     }
 
     .ah-brand span {
@@ -82,9 +151,13 @@ def inject_css() -> None:
         font-size: .72rem;
         opacity: .8;
         margin-bottom: 1rem;
+        color: #F0F7F1;
     }
 
-    /* PAGE HEADER */
+    /* =====================================
+       PAGE HEADER
+    ===================================== */
+
     .ah-header {
         border-left: 6px solid var(--primary-color);
         padding: .2rem 0 .2rem 1rem;
@@ -105,13 +178,21 @@ def inject_css() -> None:
         font-size: .92rem;
     }
 
-    /* SECTION HEADINGS */
-    .stApp h1, .stApp h2, .stApp h3 {
+    /* =====================================
+       SECTION HEADINGS
+    ===================================== */
+
+    .stApp h1,
+    .stApp h2,
+    .stApp h3 {
         color: var(--text-color);
         font-weight: 750;
     }
 
-    /* METRIC CARDS */
+    /* =====================================
+       METRIC CARDS
+    ===================================== */
+
     .ah-card {
         background: var(--secondary-background-color);
         color: var(--text-color);
@@ -144,7 +225,10 @@ def inject_css() -> None:
         opacity: .8;
     }
 
-    /* BADGES */
+    /* =====================================
+       BADGES
+    ===================================== */
+
     .ah-badge {
         display: inline-block;
         padding: .2rem .7rem;
@@ -153,7 +237,10 @@ def inject_css() -> None:
         font-weight: 700;
     }
 
-    /* NOTES */
+    /* =====================================
+       NOTES
+    ===================================== */
+
     .ah-note {
         background: var(--secondary-background-color);
         border: 1px solid rgba(128, 128, 128, .3);
@@ -163,18 +250,27 @@ def inject_css() -> None:
         color: var(--text-color);
     }
 
-    /* ALERTS */
+    /* =====================================
+       ALERTS
+    ===================================== */
+
     div[data-testid="stAlert"] {
         border-radius: 12px;
     }
 
-    /* TABS */
+    /* =====================================
+       TABS
+    ===================================== */
+
     div[data-testid="stTabs"] button[aria-selected="true"] {
         color: var(--primary-color);
         font-weight: 700;
     }
 
-    /* BUTTONS */
+    /* =====================================
+       BUTTONS
+    ===================================== */
+
     .stButton > button {
         background: var(--primary-color);
         color: white;
@@ -188,7 +284,10 @@ def inject_css() -> None:
         color: white;
     }
 
-    /* INPUTS */
+    /* =====================================
+       INPUTS
+    ===================================== */
+
     .stTextInput input,
     .stNumberInput input,
     .stDateInput input,
@@ -197,7 +296,10 @@ def inject_css() -> None:
         color: var(--text-color);
     }
 
-    /* DATAFRAME */
+    /* =====================================
+       DATAFRAME
+    ===================================== */
+
     [data-testid="stDataFrame"] {
         border-radius: 10px;
         overflow: hidden;
@@ -303,11 +405,11 @@ def style_fig(fig: go.Figure, height: int = 380) -> go.Figure:
     if dark:
         template = "plotly_dark"
         font_color = "#E2E8F0"
-        grid_color = "#3B4658"
+        grid_color = "#465568"
     else:
         template = "plotly_white"
         font_color = "#334155"
-        grid_color = "#E2E8F0"
+        grid_color = "#E3E0D4"
 
     fig.update_layout(
         height=height,
@@ -341,6 +443,11 @@ def temp_chart(
     title: str = "Suhu terhadap waktu"
 ) -> go.Figure:
 
+    dark = is_dark_mode()
+
+    actual_color = "#91AFC9" if dark else "#72966B"
+    target_color = "#FF9999" if dark else "#C65D5D"
+
     fig = go.Figure()
     d = readings.dropna(subset=["temperature_c"])
 
@@ -350,7 +457,7 @@ def temp_chart(
             y=d["temperature_c"],
             mode="lines+markers",
             name="Suhu aktual",
-            line=dict(color=C["green"], width=3),
+            line=dict(color=actual_color, width=3),
             marker=dict(size=4)
         )
     )
@@ -358,7 +465,7 @@ def temp_chart(
     fig.add_hline(
         y=target,
         line_dash="dash",
-        line_color=C["red"],
+        line_color=target_color,
         annotation_text=f"Target {target:.1f} °C",
         annotation_position="top left"
     )
