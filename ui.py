@@ -33,46 +33,19 @@ def get_tones():
     }
 
 
-
 def inject_css() -> None:
     st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-    /* BASE */
+    /* GLOBAL */
     html, body, [class*="css"], .stApp {
         font-family: 'Plus Jakarta Sans', 'Segoe UI', sans-serif;
     }
 
-    /* LIGHT MODE */
-    :root {
-        --ah-bg: #F5F2E8;
-        --ah-sidebar: #315B40;
-        --ah-card: #FFFFFF;
-        --ah-text: #315B40;
-        --ah-muted: #71816B;
-        --ah-accent: #72966B;
-        --ah-note: #DCE8D5;
-        --ah-border: #E3E0D4;
-    }
-
-    /* DARK MODE */
-    @media (prefers-color-scheme: dark) {
-        :root {
-            --ah-bg: #252D39;
-            --ah-sidebar: #202A36;
-            --ah-card: #354253;
-            --ah-text: #DCE5EF;
-            --ah-muted: #B8C6D5;
-            --ah-accent: #91AFC9;
-            --ah-note: #354B4D;
-            --ah-border: #465568;
-        }
-    }
-
     .stApp {
-        background: var(--ah-bg);
-        color: var(--ah-text);
+        background: var(--background-color);
+        color: var(--text-color);
     }
 
     .block-container {
@@ -80,8 +53,9 @@ def inject_css() -> None:
         max-width: 1400px;
     }
 
+    /* SIDEBAR */
     section[data-testid="stSidebar"] {
-        background: var(--ah-sidebar);
+        background: linear-gradient(180deg, #174D35 0%, #103B2A 100%);
     }
 
     section[data-testid="stSidebar"] * {
@@ -89,69 +63,148 @@ def inject_css() -> None:
     }
 
     section[data-testid="stSidebar"] [data-baseweb="select"] * {
-        color: #243449;
+        color: #243449 !important;
     }
 
+    /* BRAND */
+    .ah-brand {
+        font-weight: 800;
+        font-size: 1.55rem;
+        letter-spacing: .08em;
+        margin-bottom: 0;
+    }
+
+    .ah-brand span {
+        color: #A7E5B8;
+    }
+
+    .ah-tag {
+        font-size: .72rem;
+        opacity: .8;
+        margin-bottom: 1rem;
+    }
+
+    /* PAGE HEADER */
     .ah-header {
-        border-left: 6px solid var(--ah-accent);
+        border-left: 6px solid var(--primary-color);
         padding: .2rem 0 .2rem 1rem;
         margin-bottom: 1.4rem;
     }
 
-    .ah-header h1,
-    .stApp h1,
-    .stApp h2,
-    .stApp h3 {
-        color: var(--ah-text);
-        font-weight: 750;
+    .ah-header h1 {
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: var(--text-color);
+        margin: 0;
     }
 
     .ah-header p {
-        color: var(--ah-muted);
+        color: var(--text-color);
+        opacity: .8;
+        margin: .15rem 0 0;
+        font-size: .92rem;
     }
 
+    /* SECTION HEADINGS */
+    .stApp h1, .stApp h2, .stApp h3 {
+        color: var(--text-color);
+        font-weight: 750;
+    }
+
+    /* METRIC CARDS */
     .ah-card {
-        background: var(--ah-card);
-        color: var(--ah-text);
-        border: 1px solid var(--ah-border);
+        background: var(--secondary-background-color);
+        color: var(--text-color);
         border-radius: 16px;
         padding: 1.1rem 1.2rem;
-        box-shadow: 0 3px 10px rgba(0,0,0,.05);
+        border: 1px solid rgba(128, 128, 128, .25);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, .06);
         height: 100%;
     }
 
-    .ah-card .lbl,
-    .ah-card .sub {
-        color: var(--ah-muted);
+    .ah-card .lbl {
+        font-size: .74rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .05em;
+        color: var(--text-color);
+        opacity: .8;
     }
 
     .ah-card .val {
-        color: var(--ah-text);
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: var(--text-color);
+        line-height: 1.3;
     }
 
+    .ah-card .sub {
+        font-size: .78rem;
+        color: var(--text-color);
+        opacity: .8;
+    }
+
+    /* BADGES */
+    .ah-badge {
+        display: inline-block;
+        padding: .2rem .7rem;
+        border-radius: 999px;
+        font-size: .75rem;
+        font-weight: 700;
+    }
+
+    /* NOTES */
     .ah-note {
-        background: var(--ah-note);
-        color: var(--ah-text);
-        border: 1px solid var(--ah-border);
+        background: var(--secondary-background-color);
+        border: 1px solid rgba(128, 128, 128, .3);
         border-radius: 12px;
         padding: .8rem 1rem;
+        font-size: .85rem;
+        color: var(--text-color);
     }
 
-    .stButton > button {
-        background: var(--ah-sidebar);
-        color: white;
-        border: none;
-        border-radius: 9px;
+    /* ALERTS */
+    div[data-testid="stAlert"] {
+        border-radius: 12px;
     }
 
+    /* TABS */
     div[data-testid="stTabs"] button[aria-selected="true"] {
-        color: var(--ah-accent);
+        color: var(--primary-color);
         font-weight: 700;
+    }
+
+    /* BUTTONS */
+    .stButton > button {
+        background: var(--primary-color);
+        color: white;
+        border-radius: 9px;
+        font-weight: 600;
+        border: none;
+    }
+
+    .stButton > button:hover {
+        opacity: .85;
+        color: white;
+    }
+
+    /* INPUTS */
+    .stTextInput input,
+    .stNumberInput input,
+    .stDateInput input,
+    .stTimeInput input,
+    .stTextArea textarea {
+        color: var(--text-color);
+    }
+
+    /* DATAFRAME */
+    [data-testid="stDataFrame"] {
+        border-radius: 10px;
+        overflow: hidden;
     }
 
     </style>
     """, unsafe_allow_html=True)
-
 
 
 def page_header(title: str, subtitle: str = "") -> None:
