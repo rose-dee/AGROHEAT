@@ -10,32 +10,169 @@ TONES = {"green": (C["green_soft"], C["green_dark"]), "yellow": (C["yellow_soft"
          "red": (C["red_soft"], "#991b1b"), "gray": (C["gray_soft"], "#334155")}
 
 
+
 def inject_css() -> None:
     st.markdown(f"""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-    html, body, [class*="css"], .stApp {{ font-family: 'Plus Jakarta Sans', 'Segoe UI', sans-serif; }}
-    .stApp {{ background: #f6f8f6; }}
-    .block-container {{ padding-top: 1.6rem; max-width: 1280px; }}
-    section[data-testid="stSidebar"] {{ background: linear-gradient(180deg, {C['green_dark']} 0%, #0b3a1f 100%); }}
-    section[data-testid="stSidebar"] * {{ color: #ecfdf5 !important; }}
-    section[data-testid="stSidebar"] [data-baseweb="select"] * {{ color: {C['ink']} !important; }}
-    .ah-brand {{ font-weight: 800; font-size: 1.55rem; letter-spacing: .08em; margin-bottom: 0; }}
-    .ah-brand span {{ color: #86efac; }}
-    .ah-tag {{ font-size: .72rem; opacity: .75; margin-bottom: 1rem; }}
-    .ah-header {{ border-left: 6px solid {C['green']}; padding: .2rem 0 .2rem 1rem; margin-bottom: 1.2rem; }}
-    .ah-header h1 {{ font-size: 1.7rem; font-weight: 800; color: {C['green_dark']}; margin: 0; padding: 0; }}
-    .ah-header p {{ color: {C['gray']}; margin: .15rem 0 0 0; font-size: .92rem; }}
-    .ah-card {{ background: #fff; border-radius: 16px; padding: 1rem 1.15rem; border: 1px solid #e2e8f0;
-               box-shadow: 0 1px 3px rgba(15,23,42,.05); height: 100%; }}
-    .ah-card .lbl {{ font-size: .74rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: {C['gray']}; }}
-    .ah-card .val {{ font-size: 1.75rem; font-weight: 800; color: {C['ink']}; line-height: 1.25; }}
-    .ah-card .sub {{ font-size: .78rem; color: {C['gray']}; }}
-    .ah-badge {{ display: inline-block; padding: .15rem .65rem; border-radius: 999px; font-size: .75rem; font-weight: 700; }}
-    .ah-note {{ background: #fff; border: 1px dashed #cbd5e1; border-radius: 12px; padding: .7rem 1rem;
-               font-size: .82rem; color: {C['gray']}; }}
-    div[data-testid="stTabs"] button[aria-selected="true"] {{ color: {C['green_dark']}; font-weight: 700; }}
-    </style>""", unsafe_allow_html=True)
+
+    /* GLOBAL */
+    html, body, [class*="css"], .stApp {{
+        font-family: 'Plus Jakarta Sans', 'Segoe UI', sans-serif;
+    }}
+
+    .stApp {{
+        background: #F4F6F1;
+        color: #243449;
+    }}
+
+    .block-container {{
+        padding-top: 1.6rem;
+        max-width: 1400px;
+    }}
+
+    /* SIDEBAR */
+    section[data-testid="stSidebar"] {{
+        background: linear-gradient(180deg, #174D35 0%, #103B2A 100%);
+    }}
+
+    section[data-testid="stSidebar"] * {{
+        color: #F0F7F1 !important;
+    }}
+
+    section[data-testid="stSidebar"] [data-baseweb="select"] * {{
+        color: #243449 !important;
+    }}
+
+    /* BRAND */
+    .ah-brand {{
+        font-weight: 800;
+        font-size: 1.55rem;
+        letter-spacing: .08em;
+        margin-bottom: 0;
+    }}
+
+    .ah-brand span {{
+        color: #A7E5B8;
+    }}
+
+    .ah-tag {{
+        font-size: .72rem;
+        opacity: .8;
+        margin-bottom: 1rem;
+    }}
+
+    /* PAGE HEADER */
+    .ah-header {{
+        border-left: 6px solid #258653;
+        padding: .2rem 0 .2rem 1rem;
+        margin-bottom: 1.4rem;
+    }}
+
+    .ah-header h1 {{
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: #174D35;
+        margin: 0;
+    }}
+
+    .ah-header p {{
+        color: #64748B;
+        margin: .15rem 0 0 0;
+        font-size: .92rem;
+    }}
+
+    /* SECTION HEADINGS */
+    .stApp h1, .stApp h2, .stApp h3 {{
+        color: #174D35 !important;
+        font-weight: 750;
+    }}
+
+    /* METRIC CARDS */
+    .ah-card {{
+        background: #FFFFFF;
+        border-radius: 16px;
+        padding: 1.1rem 1.2rem;
+        border: 1px solid #E2E8E0;
+        box-shadow: 0 3px 10px rgba(23, 77, 53, .06);
+        height: 100%;
+    }}
+
+    .ah-card .lbl {{
+        font-size: .74rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .05em;
+        color: #64748B;
+    }}
+
+    .ah-card .val {{
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: #243449;
+        line-height: 1.3;
+    }}
+
+    .ah-card .sub {{
+        font-size: .78rem;
+        color: #64748B;
+    }}
+
+    /* BADGES */
+    .ah-badge {{
+        display: inline-block;
+        padding: .2rem .7rem;
+        border-radius: 999px;
+        font-size: .75rem;
+        font-weight: 700;
+    }}
+
+    /* NOTES */
+    .ah-note {{
+        background: #E8F2E9;
+        border: 1px solid #C8DFCC;
+        border-radius: 12px;
+        padding: .8rem 1rem;
+        font-size: .85rem;
+        color: #174D35;
+    }}
+
+    /* STREAMLIT ALERTS */
+    div[data-testid="stAlert"] {{
+        background: #E8F2E9;
+        border: 1px solid #C8DFCC;
+        border-radius: 12px;
+        color: #174D35;
+    }}
+
+    div[data-testid="stAlert"] p {{
+        color: #174D35 !important;
+    }}
+
+    /* TABS */
+    div[data-testid="stTabs"] button[aria-selected="true"] {{
+        color: #174D35;
+        font-weight: 700;
+    }}
+
+    /* BUTTONS */
+    .stButton > button {{
+        background: #1D6344;
+        color: white;
+        border: none;
+        border-radius: 9px;
+        font-weight: 600;
+    }}
+
+    .stButton > button:hover {{
+        background: #174D35;
+        color: white;
+        border: none;
+    }}
+
+    </style>
+    """, unsafe_allow_html=True)
+
 
 
 def page_header(title: str, subtitle: str = "") -> None:
