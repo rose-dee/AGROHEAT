@@ -9,6 +9,49 @@ from ml import predict
 from services import alert_service, sensor_service, simulation
 
 
+def _dashboard_notifications(batch_id):
+    alerts = db.list_alerts()
+
+    if alerts.empty:
+        return
+
+    current = alerts[
+        (alerts["batch_id"] == batch_id)
+        & (alerts["status"].isin(["Active", "Acknowledged"]))
+    ].head(5)
+
+    if current.empty:
+        return
+
+    notified_ids = st.session_state.setdefault(
+        "agroheat_notified_alert_ids", set()
+    )
+
+    st.markdown("#### 🔔 Notifikasi proses")
+
+    for _, alert in current.iterrows():
+        alert_id = int(alert["id"])
+
+        if alert["priority"] == "Critical":
+            icon = "🚨"
+        elif alert["priority"] == "Warning":
+            icon = "⚠️"
+        else:
+            icon = "ℹ️"
+
+        st.warning(
+            f"**{icon} {alert['alert_type']}**\n\n"
+            f"{alert['message']}"
+        )
+
+        if alert_id not in notified_ids:
+            st.toast(
+                f"{alert['alert_type']}: {alert['message']}",
+                icon=icon,
+            )
+            notified_ids.add(alert_id)
+
+
 def _live_panel(mode):
     """Bagian yang menyegarkan diri secara berkala (st.fragment)."""
     s = db.get_settings()
@@ -20,8 +63,11 @@ def _live_panel(mode):
     if mode == "simulation" and b["data_source"] == "simulation" and b["status"] == "Heating":
         simulation.simulate_tick(b["batch_id"], int(s["simulation_speed"]))
         b = db.get_batch(b["batch_id"])
-    else:
-        alert_service.evaluate_batch(b["batch_id"])  # cek alarm "data tidak masuk"
+
+    # Evaluasi alarm untuk semua mode.
+    alert_service.evaluate_batch(b["batch_id"]) 
+    
+    # cek alarm "data tidak masuk"
     readings = db.get_readings(b["batch_id"])
     valid = readings.dropna(subset=["temperature_c"])
     last = readings.iloc[-1] if not readings.empty else None
@@ -32,6 +78,7 @@ def _live_panel(mode):
     if b["data_source"] != mode:
         st.warning(f"Batch ini bersumber **{b['data_source']}**, sedangkan mode saat ini **{mode}**. "
                    "Data hanya akan masuk sesuai sumber batch.")
+    _dashboard_notifications(b["batch_id"])
 
     ml = predict.predict_remaining(b, readings)
     heur = predict.heuristic_remaining(b, readings)
