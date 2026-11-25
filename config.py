@@ -13,7 +13,7 @@ APP_TAGLINE = "Smart Food Heating Monitoring System"
 API_HOST = "0.0.0.0"
 API_PORT = 8000
 
-MATERIAL_TYPES = ["Air", "Sari Lemon", "Sari Buah Lainnya", "Custom"]
+MATERIAL_TYPES = ["Air", "Sari Kedelai", "Sari Buah Lainnya", "Custom"]
 HEATING_CONDITIONS = ["Tanpa pengadukan", "Dengan pengadukan", "Lainnya"]
 BATCH_STATUSES = ["Pending", "Heating", "Target Reached", "Completed", "Cancelled"]
 SENSOR_STATUSES = ["connected", "disconnected", "error"]
