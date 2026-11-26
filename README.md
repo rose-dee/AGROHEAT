@@ -81,7 +81,7 @@ data/  models/  assets/
 Catatan: folder halaman bernama `views/` (bukan `pages/`) karena Streamlit otomatis membuat menu sendiri dari folder `pages/` dan akan bentrok dengan sidebar kustom.
 Backend ESP32 memakai pustaka standar Python (tanpa FastAPI/Flask) agar instalasi ringan.
 
-## 6. Pengujian & keterbatasan (jujur)
+## 6. Pengujian & keterbatasan 
 
 Sudah diuji otomatis (`python tests/test_backend.py`): database & relasi, validasi payload, endpoint HTTP (lewat server sungguhan),
 alarm, pemisahan sumber data, split per batch, dan perilaku "model belum siap". `python tests/smoke_views.py` menjalankan semua halaman
