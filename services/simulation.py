@@ -38,7 +38,7 @@ def simulate_tick(batch_id: str, multiplier: int = 1) -> None:
 def seed_demo_dataset(n_batches: int = 8, seed: int = 42) -> int:
     """Buat beberapa batch simulasi selesai (berlabel Simulated Data). Return jumlah batch baru."""
     rng = np.random.default_rng(seed)
-    materials = ["Air", "Sari Lemon", "Sari Buah Lainnya"]
+    materials = ["Air", "Sari Kedelai", "Sari Buah Lainnya"]
     volumes = [250, 300, 400, 500, 600, 750, 350, 450]
     targets = [60, 65, 70, 75, 80, 70, 65, 75]
     created = 0
