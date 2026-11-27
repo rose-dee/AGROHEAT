@@ -9,11 +9,14 @@ from database import db_manager as db
 
 
 def _suggest_id(material_type: str) -> str:
-    prefix = {"Air": "AIR", "Sari Kedelai": "SOY", "Sari Buah Lainnya": "JUICE"}.get(material_type, "CUSTOM")
-    n = 1
-    while db.get_batch(f"{prefix}-{n:03d}"):
-        n += 1
-    return f"{prefix}-{n:03d}"
+    prefix = {
+        "Air": "AIR",
+        "Sari Kedelai": "SOY",
+        "Sari Buah Lainnya": "JUICE",
+        "Custom": "CUSTOM"
+    }.get(material_type, "CUSTOM")
+
+    return f"{prefix}-001"
 
 
 def _create_tab(mode):
