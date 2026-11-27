@@ -1,0 +1,13 @@
+[1mdiff --git a/config.py b/config.py[m
+[1mindex e817cc2..6418381 100644[m
+[1m--- a/config.py[m
+[1m+++ b/config.py[m
+[36m@@ -13,7 +13,7 @@[m [mAPP_TAGLINE = "Smart Food Heating Monitoring System"[m
+ API_HOST = "0.0.0.0"[m
+ API_PORT = 8000[m
+ [m
+[31m-MATERIAL_TYPES = ["Air", "Sari Lemon", "Sari Buah Lainnya", "Custom"][m
+[32m+[m[32mMATERIAL_TYPES = ["Air", "Sari Kedelai", "Sari Buah Lainnya", "Custom"][m
+ HEATING_CONDITIONS = ["Tanpa pengadukan", "Dengan pengadukan", "Lainnya"][m
+ BATCH_STATUSES = ["Pending", "Heating", "Target Reached", "Completed", "Cancelled"][m
+ SENSOR_STATUSES = ["connected", "disconnected", "error"][m
