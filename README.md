@@ -47,12 +47,12 @@ python run_api.py                  # terminal 2: penerima data ESP32 (port 8000)
 Contoh payload (`elapsed_seconds` dan `timestamp` opsional; jika kosong dihitung dari waktu mulai batch / jam laptop):
 
 ```json
-{"batch_id": "LEMON-001", "timestamp": "2026-11-18T10:00:00+07:00",
+{"batch_id": "SOY-001", "timestamp": "2026-11-18T10:00:00+07:00",
  "temperature_c": 32.5, "elapsed_seconds": 60, "sensor_status": "connected"}
 ```
 
 Tes tanpa ESP32 (PowerShell, setelah batch Real Sensor berstatus Heating):
-`Invoke-RestMethod -Method Post -Uri http://localhost:8000/api/readings -ContentType "application/json" -Body '{"batch_id":"LEMON-001","temperature_c":32.5}'`
+`Invoke-RestMethod -Method Post -Uri http://localhost:8000/api/readings -ContentType "application/json" -Body '{"batch_id":"SOY-001","temperature_c":32.5}'`
 
 Status **ESP32 Online** hanya muncul bila ada data `real_sensor` yang benar-benar masuk dalam batas waktu; selain itu tampil Offline / Belum pernah terhubung.
 
