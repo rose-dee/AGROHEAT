@@ -56,7 +56,7 @@ def main():
     assert meta["includes_simulation"] and len(db.list_experiments()) == 2
 
     # --- prediksi di batch real_sensor (bukan simulasi) tetap terpisah
-    db.create_batch({"batch_id": "LEMON-001", "material": "Sari Lemon", "material_type": "Sari Lemon",
+    db.create_batch({"batch_id": "SOY-001", "material": "Sari Kedelai", "material_type": "Sari Kedelai",
                      "volume_ml": 500, "initial_temperature": 28, "target_temperature": 70,
                      "heating_condition": "Tanpa pengadukan", "data_source": "real_sensor"})
     code, body = post_through_server({"batch_id": "LEMON-001", "temperature_c": 30.0})
