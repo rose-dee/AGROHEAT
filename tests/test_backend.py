@@ -59,33 +59,33 @@ def main():
     db.create_batch({"batch_id": "SOY-001", "material": "Sari Kedelai", "material_type": "Sari Kedelai",
                      "volume_ml": 500, "initial_temperature": 28, "target_temperature": 70,
                      "heating_condition": "Tanpa pengadukan", "data_source": "real_sensor"})
-    code, body = post_through_server({"batch_id": "LEMON-001", "temperature_c": 30.0})
+    code, body = post_through_server({"batch_id": "SOY-001", "temperature_c": 30.0})
     assert code == 409, (code, body)            # batch masih Pending -> ditolak
-    db.start_batch("LEMON-001")
-    code, body = post_through_server({"batch_id": "LEMON-001", "temperature_c": 30.0, "elapsed_seconds": 5,
+    db.start_batch("SOY-001")
+    code, body = post_through_server({"batch_id": "SOY-001", "temperature_c": 30.0, "elapsed_seconds": 5,
                                       "timestamp": "2026-11-18T10:00:00+07:00", "sensor_status": "connected"})
     assert code == 201, (code, body)
-    assert post_through_server({"batch_id": "LEMON-001", "temperature_c": -127})[0] == 400
+    assert post_through_server({"batch_id": "SOY-001", "temperature_c": -127})[0] == 400
     assert post_through_server({"batch_id": "NOPE", "temperature_c": 30})[0] == 404
     assert post_through_server({"temperature_c": 30})[0] == 400
-    assert post_through_server({"batch_id": "LEMON-001", "temperature_c": 31, "sensor_status": "bogus"})[0] == 400
+    assert post_through_server({"batch_id": "SOY-001", "temperature_c": 31, "sensor_status": "bogus"})[0] == 400
     print("OK  validasi payload & penolakan batch tidak valid")
 
     # --- ML vs heuristik pada data real (hanya 2 titik: heuristik butuh laju)
     for t, T in [(65, 40), (125, 50)]:
-        post_through_server({"batch_id": "LEMON-001", "temperature_c": T, "elapsed_seconds": t})
-    b, rd = db.get_batch("LEMON-001"), db.get_readings("LEMON-001")
+        post_through_server({"batch_id": "SOY-001", "temperature_c": T, "elapsed_seconds": t})
+    b, rd = db.get_batch("SOY-001"), db.get_readings("SOY-001")
     p, h = predict.predict_remaining(b, rd), predict.heuristic_remaining(b, rd)
     print("OK  prediksi ML:", None if p is None else round(p["seconds"]), "dtk | heuristik:", None if h is None else round(h), "dtk")
 
     # --- sensor lepas -> alarm Critical; target tercapai -> status & alarm
-    post_through_server({"batch_id": "LEMON-001", "sensor_status": "disconnected", "elapsed_seconds": 130})
+    post_through_server({"batch_id": "SOY-001", "sensor_status": "disconnected", "elapsed_seconds": 130})
     assert "Sensor tidak terdeteksi" in set(db.list_alerts("Active")["alert_type"])
-    post_through_server({"batch_id": "LEMON-001", "temperature_c": 71.0, "elapsed_seconds": 400})
+    post_through_server({"batch_id": "SOY-001", "temperature_c": 71.0, "elapsed_seconds": 400})
     assert db.get_batch("LEMON-001")["status"] == "Target Reached"
     assert "Batch mencapai suhu target" in set(db.list_alerts()["alert_type"])
-    db.end_batch("LEMON-001")
-    assert db.get_batch("LEMON-001")["actual_duration_seconds"] == 400
+    db.end_batch("SOY-001")
+    assert db.get_batch("SOY-001")["actual_duration_seconds"] == 400
     print("OK  alarm sensor/target + durasi aktual")
 
     # --- mode simulasi tick + pemisahan sumber
