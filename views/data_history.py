@@ -22,7 +22,7 @@ def render(mode):
     c4, c5 = st.columns([2, 1])
     dmin, dmax = df["ts"].min().date(), df["ts"].max().date()
     dates = c4.date_input("Rentang tanggal", (dmin, dmax), min_value=dmin, max_value=dmax)
-    query = c5.text_input("Cari batch", placeholder="mis. LEMON")
+    query = c5.text_input("Cari batch", placeholder="mis. SOY")
 
     f = df
     if sel_batches: f = f[f["batch_id"].isin(sel_batches)]
